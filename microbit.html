@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robot + micro:bit</title>
+<style>
+body {
+  background:#0b0b0b;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+}
+.panel {
+  background:#151515;
+  margin:10px;
+  padding:10px;
+  border-radius:10px;
+}
+button {
+  font-size:18px;
+  padding:14px 22px;
+  margin:6px;
+  border-radius:10px;
+}
+#log {
+  background:black;
+  text-align:left;
+  max-height:150px;
+  overflow:auto;
+  padding:6px;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<h1>🤖 Robot Controller</h1>
+
+<div class="panel">
+  <button onclick="send('F')">⬆</button><br>
+  <button onclick="send('L')">⬅</button>
+  <button onclick="send('S')">⏹</button>
+  <button onclick="send('R')">➡</button><br>
+  <button onclick="send('B')">⬇</button>
+</div>
+
+<div class="panel">
+  🔋 Battery: <span id="bat">100</span>%<br>
+  🌡 Temp: <span id="temp">30</span>°C<br>
+  📶 Signal: <span id="sig">100</span>%
+</div>
+
+<div class="panel">
+  <b>📜 Log</b>
+  <div id="log"></div>
+</div>
+
+<script>
+let battery = 100;
+let temp = 30;
+let signal = 100;
+
+function log(msg) {
+  let l = document.getElementById("log");
+  l.innerHTML = new Date().toLocaleTimeString() +
+    " → " + msg + "<br>" + l.innerHTML;
+}
+
+function send(cmd) {
+  log("Send to micro:bit: " + cmd);
+  battery -= 1;
+  temp += Math.random() * 1.5;
+  update();
+}
+
+// Phone tilt → micro:bit commands
+if (window.DeviceOrientationEvent) {
+  window.addEventListener("deviceorientation", e => {
+    let x = e.gamma;
+    let y = e.beta;
+
+    if (y < -20) send("F");
+    else if (y > 20) send("B");
+    else if (x < -20) send("L");
+    else if (x > 20) send("R");
+  });
+}
+
+function update() {
+  document.getElementById("bat").innerText = Math.max(battery,0);
+  document.getElementById("temp").innerText = temp.toFixed(1);
+  document.getElementById("sig").innerText = signal;
+}
+
+setInterval(() => {
+  signal = 80 + Math.random()*20;
+  update();
+}, 3000);
+
+log("System ready");
+</script>
+
+</body>
+</html>

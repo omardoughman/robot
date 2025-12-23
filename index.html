@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Robot Control</title>
+  <style>
+    body { font-family: Arial; text-align: center; }
+    button { font-size: 20px; margin: 10px; padding: 20px; }
+  </style>
+</head>
+<body>
+
+<h1>🤖 Robot Control</h1>
+
+<button onclick="send('forward')">⬆ Forward</button><br>
+<button onclick="send('left')">⬅ Left</button>
+<button onclick="send('stop')">⏹ Stop</button>
+<button onclick="send('right')">➡ Right</button><br>
+<button onclick="send('back')">⬇ Back</button>
+
+<script>
+function send(cmd) {
+  console.log("Command:", cmd);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+[Version]
+Signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%ProviderName%
+DriverVer=12/22/2025,1.0.0.0
+
+[Manufacturer]
+%ProviderName%=DeviceList,NTamd64
+
+[DeviceList.NTamd64]
+%DeviceName%=Install, USB\VID_1A86&PID_7523
+
+[Install]
+Include=mdmcpq.inf
+CopyFiles=DriverCopyFiles
+AddReg=AddRegSection
+
+[DriverCopyFiles]
+
+[AddRegSection]
+HKR,,FriendlyName,,%FriendlyName%
+
+[Strings]
+ProviderName="Robot Project"
+DeviceName="Robot Controller USB"
+FriendlyName="Robot Controller (COM Port)"
